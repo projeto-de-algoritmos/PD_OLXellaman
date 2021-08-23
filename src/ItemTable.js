@@ -2,18 +2,9 @@
 import React, { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
 
-// const mockData = [
-//   {from: {id: 1, name: "cachorro"}, to: {id: 2, name: "coelho"}, tradeTax: 20},
-//   {from: {id: 2, name: "gato"}, to: {id: 2, name: "gaga"}, tradeTax: 2},
-//   {from: {id: 3, name: "peixe"}, to: {id: 2, name: "tete"}, tradeTax: 3},
-//   {from: {id: 4, name: "urso"}, to: {id: 2, name: "vaca"}, tradeTax: 4},
-//   {from: {id: 5, name: "viado"}, to: {id: 2, name: "sgsgs"}, tradeTax: 5},
-// ]
-
-const renderTable = (mockData) => {
-  const mapItems = (mockData) => {
-    return mockData.map((item) => {
-      // console.log(item);
+const renderTable = (data) => {
+  const mapItems = (data) => {
+    return data.map((item) => {
       return (
         <>
           <tr>
@@ -26,11 +17,11 @@ const renderTable = (mockData) => {
       );
     });
   };
-  return mockData.length ? mapItems(mockData) : "loading....";
+  return data.length ? mapItems(data) : "Loading...";
 };
 
-const ItemTable = ({trocas}) => {
-  console.log(trocas)
+const ItemTable = ({trades}) => {
+  console.log(trades)
   return (
     <Table striped bordered hover>
       <thead>
@@ -40,7 +31,7 @@ const ItemTable = ({trocas}) => {
           <th>Interesse de troca</th>
         </tr>
       </thead>
-      <tbody>{renderTable(trocas)}</tbody>
+      <tbody>{renderTable(trades)}</tbody>
     </Table>
   );
 };

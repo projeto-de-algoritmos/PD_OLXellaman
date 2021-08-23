@@ -12,8 +12,7 @@ const App = ({graph}) => {
     <Container className="p-3">
     <Jumbotron>
         <ItemForm items={localItems} updateLocalTrades={updateLocalTrades}/>
-    <ItemTable trocas={trocas}/>
-  </Container>
+      <ItemTable trades={localTrades} />
   )
 };
 
