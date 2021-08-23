@@ -1,5 +1,4 @@
-// lista de items
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Table from "react-bootstrap/Table";
 
 const renderTable = (data) => {

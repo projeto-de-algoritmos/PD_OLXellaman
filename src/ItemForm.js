@@ -1,74 +1,62 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
-import {renderTable} from './ItemTable';
+import React, {useState} from 'react';
+import { Form, Button } from 'react-bootstrap';
 
-const ItemForm = ({items}) => {
-  const itemNames = items.map(item => item.name);
+const ItemForm = ({items, updateLocalTrades}) => {
+  const initialInputState = { name: "", tradeTax: "", fromId:items[0].id };
+  const [eachEntry, setEachEntry] = useState(initialInputState);
 
-  const validationSchema = Yup.object().shape({
-    itemName: Yup.string().required('Nome do Item é obrigatório').min(5, "Minimo 5 letras"),
-    itemPrice: Yup.number().typeError('Apenas números').min(0, "Apenas valores maiores que 1").required('Obrigatório'),
-    tradeFor: Yup.mixed().oneOf(itemNames).required('Trade for is required'),
-  });
+  const handleInputChange = (e) => {
+    setEachEntry({ ...eachEntry, [e.target.name]: e.target.value });
+  };
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors }
-  } = useForm({
-    resolver: yupResolver(validationSchema)
-  });
-
-  const onSubmit = data => {
-    console.log(JSON.stringify(data, null, 2));
-    console.log(' foi ')
-    renderTable()
+  const onSubmit = () => {
+    updateLocalTrades(eachEntry);
   }
 
   return (
-    <div className="register-form">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-group">
-          <label>Nome do item</label>
-          <input
-            name="itemName"
+    <Form>
+      <Form.Group>
+          <Form.Label>Eu tenho um:</Form.Label>
+          <Form.Control
+            name="name"
             type="text"
-            {...register('itemName')}
-            className={`form-control ${errors.itemName ? 'is-invalid' : ''}`}
+            className={`form-control`}
+            onChange={handleInputChange}
           />
-          <div className="invalid-feedback">{errors.itemName?.message}</div>
-        </div>
+        </Form.Group>
 
-        <div className="form-group">
-          <label>Preço do item</label>
-          <input
-            name="itemPrice"
-            type="text" pattern="[0-9]*"
-            {...register('itemPrice')}
-            className={`form-control ${errors.itemPrice ? 'is-invalid' : ''}`}
+
+        <Form.Group>
+          <Form.Label>E aceito trocar por um:</Form.Label>
+          <Form.Control
+            name="fromId"
+            className={`form-control`}
+            onChange={
+              (e) => {
+                handleInputChange({ target: { name: "fromId", value: e.target.value } });
+              }
+            }
+            as="select"
+          >
+          {items.map(item => (
+            <option value={item.id}>{item.name}</option>
+          ))}
+          </Form.Control>
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Label>Com um adicional de troca:</Form.Label>
+          <Form.Control
+          name="tradeTax"
+          className={`form-control`}
+          onChange={handleInputChange}
           />
-          <div className="invalid-feedback">{errors.itemPrice?.message}</div>
-        </div>
+        </Form.Group>
 
-        <div class="form-group">
-          <label for="inputState">Interesse</label>
-            <select id="inputState" class="form-control">
-              {itemNames.map(name => {
-                return <option selected>{name}</option>                
-              })}
-          </select>
-        </div>
-
-        <div className="form-group">
-          <button type="submit" className="btn btn-primary">
-            Ofertar
-          </button>
-        </div>
-      </form>
-    </div>
+        <Button onClick ={onSubmit} className="btn btn-primary">
+          Ofertar
+        </Button>
+    </Form>
   );
 
 }
