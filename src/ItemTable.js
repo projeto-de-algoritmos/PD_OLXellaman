@@ -8,10 +8,9 @@ const renderTable = (data) => {
       return (
         <>
           <tr>
-
+            <td> {item.to.name} </td>
             <td> {item.from.name} </td>
             <td> {item.tradeTax} </td>
-            <td> {item.to.name} </td>
           </tr>
         </>
       );
@@ -21,14 +20,13 @@ const renderTable = (data) => {
 };
 
 const ItemTable = ({trades}) => {
-  console.log(trades)
   return (
     <Table striped bordered hover>
       <thead>
         <tr>
-          <th>Nome do item</th>
-          <th>Quanto você precisa pagar</th>
+          <th>Item</th>
           <th>Interesse de troca</th>
+          <th>Taxa adicional</th>
         </tr>
       </thead>
       <tbody>{renderTable(trades)}</tbody>
