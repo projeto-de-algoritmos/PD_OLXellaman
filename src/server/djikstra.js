@@ -29,8 +29,6 @@ const buildGraph = () => {
   return graph;
 }
 
-
-
 const dijkstra = (graph, source) => {
   const minDist = (priorityQueue, dist) => {
     let minNode = null;
@@ -57,7 +55,7 @@ const dijkstra = (graph, source) => {
 
   while ([...q].length > 0) {
     let u = graph.getNode(minDist(q, dist));
-    q = q.filter((id) => id != u.id);
+    q = q.filter((id) => id !== u.id);
 
     if (u.id in graph.edges) {
       for (let [_, v] of Object.entries(graph.edges[u.id])) {
@@ -78,7 +76,7 @@ const dijkstra = (graph, source) => {
 const toArray = (prev, fromNode) => {
   let previousNode = prev[fromNode.id];
   let route = [fromNode.id];
-  while (previousNode != undefined) {
+  while (previousNode !== undefined) {
     route.push(previousNode.id);
     let temp = previousNode;
     previousNode = prev[temp.id];
@@ -88,10 +86,11 @@ const toArray = (prev, fromNode) => {
 };
 
 const addTrade = (graph, item) => {
-  const fromNode = graph.getNode(item.fromId);
-  const toNode = new Node(item.name);
-  graph.addNode(toNode);
-  graph.addEdge(toNode, fromNode, item.tradeTax);
+  const toNode = graph.getNode(item.fromId);
+  const fromNode = new Node(item.name);
+  graph.addNode(fromNode);
+  graph.addEdge(toNode, fromNode, parseFloat(item.tradeTax));
+  return {graph, newNodeId: toNode.id};
 }
 
 const calcTrade = (graph, fromId, toId) => {
@@ -101,13 +100,26 @@ const calcTrade = (graph, fromId, toId) => {
     dist,
     prev
   } = dijkstra(graph, fromNode);
-  console.log({dist});
+
   const route = toArray(prev, toNode);
   const total = dist[toNode.id];
   const nodes = route.map((id) => graph.getNode(id));
+  
+  let trades = nodes.map((node, idx) => {
+        let next = nodes[idx + 1]
+        if(next){
+            const edge = graph.getEdge(node, next)
+            return {
+                from: node.name,
+                to: next.name,
+                tradeTax: edge.length
+            }
+        }
+    })
+  trades = trades.filter((trade) => trade !== undefined)
   return {
-    nodes,
-    total
+    total,
+    trades
   };
 }
 
