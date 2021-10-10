@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 
-const ItemCalc = ({items, calcBestPrice}) => {
+const ItemCalc = ({ items, calcBestPrice }) => {
   const initialInputState = { fromId: items[0].id, toId: items[1].id };
   const [eachEntry, setEachEntry] = useState(initialInputState);
 
-  const handleInputChange = (e) => {
-    setEachEntry({ ...eachEntry, [e.target.name]: e.target.value });
+  const handleInputChange = ({ name, value }) => {
+    setEachEntry({ ...eachEntry, [name]: value });
   };
 
   const onSubmit = () => {
-    console.log(eachEntry);
     calcBestPrice(eachEntry);
   };
 
@@ -22,14 +21,12 @@ const ItemCalc = ({items, calcBestPrice}) => {
           name="fromId"
           className={`form-control`}
           onChange={(e) => {
-            handleInputChange({
-              target: { name: "fromId", value: e.target.value },
-            });
+            handleInputChange({ name: "fromId", value: e.target.value });
           }}
           as="select"
         >
           {items.map((item) => (
-            <option value={item.id}>{item.name}</option>
+            <option value={item.id}>{`${item.name} (id=${item.id})`}</option>
           ))}
         </Form.Control>
       </Form.Group>
@@ -40,15 +37,15 @@ const ItemCalc = ({items, calcBestPrice}) => {
           name="toId"
           className={`form-control`}
           onChange={(e) => {
-            handleInputChange({
-              target: { name: "toId", value: e.target.value },
-            });
+            handleInputChange({ name: "toId", value: e.target.value });
           }}
           as="select"
         >
-          {items.map((item) => (
-            <option value={item.id}>{item.name}</option>
-          ))}
+          {items
+            .filter((item) => item.id !== eachEntry.fromId)
+            .map((item) => (
+              <option value={item.id}>{`${item.name} (id=${item.id})`}</option>
+            ))}
         </Form.Control>
       </Form.Group>
 
