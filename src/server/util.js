@@ -1,10 +1,11 @@
-const {Graph, Node} = require('./models');
-const {djikstra} = require('./djikstra');
+const { Graph, Node } = require("./models");
+const { djikstra } = require("./djikstra");
+const { bellman } = require("./bellman");
 
 const buildGraph = () => {
   let graph = new Graph();
 
-  let book = new Node('book');
+  let book = new Node("book");
   let poster = new Node("poster");
   let rare_lp = new Node("rare lp");
   let bass_guitar = new Node("bass guitar");
@@ -29,7 +30,7 @@ const buildGraph = () => {
   graph.addEdge(drumset, piano, 10);
 
   return graph;
-}
+};
 
 const toArray = (prev, fromNode) => {
   let previousNode = prev[fromNode.id];
@@ -48,73 +49,68 @@ const addTrade = (graph, item) => {
   const fromNode = new Node(item.name);
   graph.addNode(fromNode);
   graph.addEdge(toNode, fromNode, parseFloat(item.tradeTax));
-  return {graph, newNodeId: toNode.id};
-}
+  return { graph, newNodeId: toNode.id };
+};
 
 const decideAlgorithm = (algorithmName) => {
   switch (algorithmName) {
-    case 'djikstra':
+    case "djikstra":
       return djikstra;
+    case "bellman":
+      return bellman;
     default:
       return djikstra;
   }
-}
+};
 
 const calcTrade = (graph, fromId, toId, algorithm) => {
   const fromNode = graph.getNode(fromId);
   const toNode = graph.getNode(toId);
 
-  console.log({fromNode, toNode});
+  console.log({ fromNode, toNode });
 
-  const {
-    dist,
-    prev,
-    error
-  } = decideAlgorithm(algorithm)(graph, fromNode);
+  const { dist, prev, error } = decideAlgorithm(algorithm)(graph, fromNode);
 
-  if(error) {
+  if (error) {
     return {
-      error
-    }
+      error,
+    };
   }
 
   const route = toArray(prev, toNode);
   const total = dist[toNode.id];
   const nodes = route.map((id) => graph.getNode(id));
-  
+
   let trades = nodes.map((node, idx) => {
-        let next = nodes[idx + 1]
-        if(next){
-            const edge = graph.getEdge(node, next)
-            return {
-                from: node.name,
-                to: next.name,
-                tradeTax: edge.length
-            }
-        }
-    })
-  trades = trades.filter((trade) => trade !== undefined)
+    let next = nodes[idx + 1];
+    if (next) {
+      const edge = graph.getEdge(node, next);
+      return {
+        from: node.name,
+        to: next.name,
+        tradeTax: edge.length,
+      };
+    }
+  });
+  trades = trades.filter((trade) => trade !== undefined);
   return {
     total,
     trades,
-    error: false
+    error: false,
   };
-}
+};
 
 const doTrade = (graph, item) => {
-  const {
-    route,
-    total
-  } = calcTrade(item);
+  const { route, total } = calcTrade(item);
   const fromNode = graph.getNode(item.fromId);
   const toNode = graph.getNode(item.toId);
   graph.removeNode(fromNode);
   graph.removeNode(toNode);
   return {
     route,
-    total
-  }
-}
+    total,
+  };
+};
 
 const getAllTrades = (graph) => {
   const trades = [];
@@ -123,29 +119,29 @@ const getAllTrades = (graph) => {
       trades.push({
         from: v.from,
         to: v.to,
-        tradeTax: v.length
+        tradeTax: v.length,
       });
     }
   }
   return trades;
-}
+};
 
 const getAllItems = (graph) => {
   const items = [];
   for (let node of graph.nodes) {
     items.push({
       id: node.id,
-      name: node.name
+      name: node.name,
     });
   }
   return items;
-}
+};
 
 module.exports = {
-    addTrade,
-    doTrade,
-    calcTrade,
-    getAllTrades,
-    getAllItems,
-    buildGraph
-}
+  addTrade,
+  doTrade,
+  calcTrade,
+  getAllTrades,
+  getAllItems,
+  buildGraph,
+};
