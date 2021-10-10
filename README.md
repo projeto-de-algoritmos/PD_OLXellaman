@@ -15,7 +15,7 @@
 Esse projeto é a evolução de outro trabalho feito pela dupla em [grafos2_OLXijkstra](https://github.com/projeto-de-algoritmos/grafos2_OLXijkstra/).
 
 No trabalho anterior, utilizamos Djikstra. A limitação era que o usuário poderia apenas pedir um valor extra na troca. Agora, ele pode pagar um
-valor extra na troca.
+valor extra na troca, uma vez que Bellman-Ford consegue lidar com valores negativos nas arestas.
 
 Ou seja, ela pode dizer que tem uma camisa do Corinthians e quer trocar por um microfone HyperX Solocast, pagando um adicional de 200 dinheiros
 por exemplo.
