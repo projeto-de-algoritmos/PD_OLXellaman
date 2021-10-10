@@ -1,7 +1,7 @@
-# Grafos2_OLXijkstra
+# PD_OLXellman
 
-**Número da Lista**: 2<br>
-**Conteúdo da Disciplina**: Grafos 2<br>
+**Número da Lista**: 5<br>
+**Conteúdo da Disciplina**: Programação Dinâmica<br>
 
 ## Alunos
 |Matrícula | Aluno |
@@ -10,13 +10,18 @@
 | 14/0058371  |  Augusto Moreno Vilarins |
 
 ## Sobre 
-Esse projeto implementa um exemplo dado no livro Grokking Algorithms
-de uma rede de trocas de produtos entre pessoas.
 
-A pessoa diz o item que está interessada e o que tem a oferecer. Ela
-também pode colocar um item mais caro e pedir um adicional em dinheiro.
+
+Esse projeto é a evolução de outro trabalho feito pela dupla em [grafos2_OLXijkstra](https://github.com/projeto-de-algoritmos/grafos2_OLXijkstra/).
+
+No trabalho anterior, utilizamos Djikstra. A limitação era que o usuário poderia apenas pedir um valor extra na troca. Agora, ele pode pagar um
+valor extra na troca.
+
+Ou seja, ela pode dizer que tem uma camisa do Corinthians e quer trocar por um microfone HyperX Solocast, pagando um adicional de 200 dinheiros
+por exemplo.
 
 Cada item corresponde a um nó no array.
+
 Cada troca/negociação coresponde a uma aresta do array, contendo
 o item ofertado, o item desejado pela troca e o preço adicional de troca.
 
@@ -29,6 +34,7 @@ Fonte: [Grokking Algorithms](https://www.amazon.com/Grokking-Algorithms-J-Abelso
 ![](./docs/images/ss1.png)
 ![](./docs/images/ss2.png)
 ![](./docs/images/ss3.png)
+![](./docs/images/ss4.png)
 
 ## Instalação 
 **Linguagem**: Javascript<br>
