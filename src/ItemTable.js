@@ -1,15 +1,23 @@
 import React from "react";
 import Table from "react-bootstrap/Table";
 
+const transformTradeTax = (tradeTax) => {
+  console.log(tradeTax);
+  if (tradeTax > 0) {
+    return `Pagando mais ${tradeTax} dinheiros`;
+  }
+  return `Recebendo mais ${tradeTax * -1} dinheiros`;
+};
+
 const renderTable = (data) => {
   const mapItems = (data) => {
     return data.map((item) => {
       return (
         <>
           <tr>
-            <td> {item.to.name} </td>
             <td> {item.from.name} </td>
-            <td> {item.tradeTax} </td>
+            <td> {item.to.name} </td>
+            <td> {transformTradeTax(item.tradeTax)} </td>
           </tr>
         </>
       );
@@ -18,14 +26,14 @@ const renderTable = (data) => {
   return data.length ? mapItems(data) : "Loading...";
 };
 
-const ItemTable = ({trades}) => {
+const ItemTable = ({ trades }) => {
   return (
     <Table striped bordered hover>
       <thead>
         <tr>
-          <th>Item</th>
+          <th>Item disponível</th>
           <th>Interesse de troca</th>
-          <th>Taxa adicional</th>
+          <th>Valor adicional</th>
         </tr>
       </thead>
       <tbody>{renderTable(trades)}</tbody>
@@ -33,4 +41,4 @@ const ItemTable = ({trades}) => {
   );
 };
 
-export {ItemTable, renderTable}
+export { ItemTable, renderTable };
