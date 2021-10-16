@@ -48,9 +48,9 @@ const App = ({ graph }) => {
     });
     const totalMessage = (total) => {
       if (total > 0) {
-        return `Você vai gastar um valor total de ${total}`;
+        return `Você vai receber um valor total de ${total}`;
       } else {
-        return `Você vai receber um valor total de ${total * -1}`;
+        return `Você vai gastar um valor total de ${total * -1}`;
       }
     };
     console.log(totalMessage);

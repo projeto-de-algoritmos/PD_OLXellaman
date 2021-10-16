@@ -4,9 +4,9 @@ import Table from "react-bootstrap/Table";
 const transformTradeTax = (tradeTax) => {
   console.log(tradeTax);
   if (tradeTax > 0) {
-    return `Pagando mais ${tradeTax} dinheiros`;
+    return `Recebendo mais ${tradeTax} dinheiros`;
   }
-  return `Recebendo mais ${tradeTax * -1} dinheiros`;
+  return `Pagando mais ${tradeTax * -1} dinheiros`;
 };
 
 const renderTable = (data) => {

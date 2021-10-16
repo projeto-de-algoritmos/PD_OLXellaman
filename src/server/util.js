@@ -19,7 +19,7 @@ const buildGraph = () => {
   graph.addNode(piano);
   graph.addNode(drumset);
 
-  graph.addEdge(book, poster, 35);
+  graph.addEdge(book, poster, -35);
   graph.addEdge(book, rare_lp, 5);
   graph.addEdge(poster, rare_lp, 10);
   graph.addEdge(rare_lp, bass_guitar, 15);
@@ -53,10 +53,11 @@ const addTrade = (graph, item) => {
 };
 
 const decideAlgorithm = (algorithmName) => {
+  console.log(algorithmName)
   switch (algorithmName) {
-    case "djikstra":
+    case "dijkstra":
       return djikstra;
-    case "bellman":
+    case "bellmanFord":
       return bellman;
     default:
       return djikstra;
@@ -66,9 +67,6 @@ const decideAlgorithm = (algorithmName) => {
 const calcTrade = (graph, fromId, toId, algorithm) => {
   const fromNode = graph.getNode(fromId);
   const toNode = graph.getNode(toId);
-
-  console.log({ fromNode, toNode });
-
   const { dist, prev, error } = decideAlgorithm(algorithm)(graph, fromNode);
 
   if (error) {
